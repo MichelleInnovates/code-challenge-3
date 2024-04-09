@@ -1,4 +1,4 @@
-const baseApiUrl = 'http://localhost:3000';
+const baseApiUrl = 'https://json-server-wbsb.onrender.com';
 const filmsUrl = `${baseApiUrl}/films`;
 const ticketsUrl = `${baseApiUrl}/tickets`;
 
