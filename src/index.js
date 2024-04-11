@@ -1,7 +1,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const BASE_URL = 'http://localhost:3000/films'
+    const BASE_URL = 'https://json-server-wbsb.onrender.com/films'
 const title = document.querySelector('#title')
         const runtime = document.querySelector('#runtime')
         const showtime = document.querySelector('#showtime')
@@ -12,7 +12,7 @@ const title = document.querySelector('#title')
     fetchmovies()
     function fetchmovies() {
 
-        fetch('http://localhost:3000/films', {
+        fetch('https://json-server-wbsb.onrender.com/films', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
