@@ -1,59 +1,55 @@
-const baseApiUrl = 'https://json-server-wbsb.onrender.com';
-const filmsUrl = `${baseApiUrl}/films`;
-const ticketsUrl = `${baseApiUrl}/tickets`;
-
-document.addEventListener("DOMContentLoaded", () => {
-  getMovies();
-  document.querySelector("#buy-ticket").addEventListener("click", handleBuyTicket);
-});
-
-function getMovies() {
-  fetch(filmsUrl) // Fetch movies from filmsUrl
-  .then(res => res.json())
-  .then(movies => {
-      movies.forEach(movie => {renderMovieList(movie)})
-      const firstMovie = document.querySelector("#id1");
-      firstMovie.dispatchEvent(new Event("click"));
-  })
-  .catch(error => {
-      console.error('Error fetching movies:', error);
-  });
-}
-
-// The rest of your code...
-function renderMovieList(movie) {
-  const li = document.createElement("li");
-  li.textContent = movie.title; // Fixed line
-  li.id = "id" + movie.id;
-  const ul = document.querySelector("#films");
-  ul.appendChild(li);
-  li.classList.add("film");
-  li.classList.add('item');
-  li.addEventListener("click", () => {handleMovieClick(movie)})
-}
 
 
-function handleMovieClick(movie) {
-  const poster = document.querySelector("img#poster")
-  poster.src = movie.poster;
-  poster.alt = movie.title;
-  const info = document.querySelector("#showing");
-  info.querySelector("#title").textContent = movie.title;
-  info.querySelector("#runtime").textContent = movie.runtime+" minutes";
-  info.querySelector("#film-info").textContent = movie.description;
-  info.querySelector("#showtime").textContent = movie.showtime;
-  info.querySelector("#ticket-num").textContent = movie.capacity - movie.tickets_sold + " remaining tickets";
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const BASE_URL = 'http://localhost:3000/films'
+const title = document.querySelector('#title')
+        const runtime = document.querySelector('#runtime')
+        const showtime = document.querySelector('#showtime')
+        const description = document.querySelector('#film-info')
+        const poster = document.querySelector('#poster')
+        const ticketsLeft = document.querySelector('#ticket-num')
 
-function handleBuyTicket(pur) {
-  const ticketDiv = document.querySelector("#ticket-num");
-  const tickets = ticketDiv.textContent.split(" ")[0];
-  if (tickets > 0) {
-      ticketDiv.textContent = tickets - 1 + " remaining tickets";
-  }
-  else if (tickets == 0) {
-      alert("No more tickets!");
-      pur.target.classList.add("sold-out");
-      pur.target.classList.remove("orange");
-  }
-}
+    fetchmovies()
+    function fetchmovies() {
+
+        fetch('http://localhost:3000/films', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+    
+        })
+            .then((res) => res.json())
+            .then((movies) => {
+                movies.forEach(movie => {
+                    showMovie(movie)
+                });
+            })
+            .catch((err) => console.log(err))
+    
+    }
+    function showMovie(movie) {
+        const films = document.querySelector('#films')
+        const film = document.createElement('li')
+        film.className = 'film item'
+        film.textContent = movie.title
+        film.id = movie.id
+        films.appendChild(film)
+        displayMovie(movie)
+    }
+    function displayMovie(movie) {
+        const displayButton = document.getElementById(movie.id)
+        displayButton.addEventListener('click', () => {
+            
+            ticketsLeft.textContent = movie.capacity - movie.tickets_sold
+            title.textContent = movie.title
+            runtime.textContent = movie.runtime
+            showtime.textContent = movie.showtime
+            description.textContent = movie.description
+            poster.src = movie.poster
+    
+        })
+    
+    }
+})
+
