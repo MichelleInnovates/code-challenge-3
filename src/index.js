@@ -9,7 +9,7 @@ const title = document.querySelector('#title')
         const poster = document.querySelector('#poster')
         const ticketsLeft = document.querySelector('#ticket-num')
 
-    fetchmovies()
+    fetchmovies()//displayMovie
     function fetchmovies() {
 
         fetch('https://json-server-wbsb.onrender.com/films', {
